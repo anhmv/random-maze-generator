@@ -1,5 +1,7 @@
+import MazeGenerator from '../src/MazeGenerator';
+
 describe("MazeGenerator", function() {
-  var generator;
+  let generator;
 
   beforeEach(function() {
     generator = new MazeGenerator(10, 20);

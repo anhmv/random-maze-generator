@@ -1,8 +1,11 @@
-describe("Cell", function() {
-  var cell;
-  var graph;
+import Graph from '../src/Graph';
+import Cell from '../src/Cell';
 
-  beforeEach(function() {
+describe("Cell", function() {
+  let cell;
+  let graph;
+
+  beforeEach(() => {
     graph = new Graph(12, 12);
     cell = graph.getCellAt(10, 10);
   });
@@ -11,7 +14,7 @@ describe("Cell", function() {
     it("should have a x coordinate", function() {
       expect(cell.x).toEqual(10);
     });
-    
+
     it("should have a y coordinate", function() {
       expect(cell.y).toEqual(10);
     });

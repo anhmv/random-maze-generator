@@ -1,3 +1,9 @@
+import Cell from './Cell';
+import filter from 'lodash/filter';
+import includes from 'lodash/includes';
+import find from 'lodash/find';
+import reject from 'lodash/reject';
+
 var Graph = function(width, height) {
   this.width = width;
   this.height = height;
@@ -27,37 +33,33 @@ var Graph = function(width, height) {
   	if(!cell1 || !cell2) {
   		return false;
   	}
-  	if(Math.abs(cell1.x - cell2.x) > 1 || 
+  	if(Math.abs(cell1.x - cell2.x) > 1 ||
   		Math.abs(cell1.y - cell2.y) > 1) {
   		return false;
   	}
 
-  	var removedEdge = _.detect(this.removedEdges, function(edge) {
-  		return _.include(edge, cell1) && _.include(edge, cell2);
+  	var removedEdge = find(this.removedEdges, function(edge) {
+  		return includes(edge, cell1) && includes(edge, cell2);
   	});
 
   	return removedEdge == undefined;
   };
 
   this.cellUnvisitedNeighbors = function(cell) {
-  	return _.select(this.cellConnectedNeighbors(cell), function(c) {
+  	return filter(this.cellConnectedNeighbors(cell), function(c) {
       return !c.visited;
     });
   };
 
   // Returns all neighbors of this cell that ARE separated by an edge (maze line)
   this.cellConnectedNeighbors = function(cell) {
-    return _.select(this.cellNeighbors(cell), function(c) {
-      return self.areConnected(cell, c);
-    });
+    return filter(this.cellNeighbors(cell), (c) => this.areConnected(cell, c));
   };
 
   // Returns all neighbors of this cell that are NOT separated by an edge
   // This means there is a maze path between both cells.
   this.cellDisconnectedNeighbors = function (cell) {
-    return _.reject(this.cellNeighbors(cell), function(c) {
-      return self.areConnected(cell, c);
-    });
+    return reject(this.cellNeighbors(cell), (c) => this.areConnected(cell, c));
   }
 
   // Returns all neighbors of this cell, regardless if they are connected or not.
@@ -90,7 +92,7 @@ var Graph = function(width, height) {
 
   for(var i = 0; i < this.width; i++) {
   	this.cells.push([]);
-  	row = this.cells[i];
+  	let row = this.cells[i];
 
   	for(var j = 0; j < this.height; j++) {
   		var cell = new Cell(i, j, this);
@@ -98,3 +100,5 @@ var Graph = function(width, height) {
   	}
   }
 };
+
+export default Graph;

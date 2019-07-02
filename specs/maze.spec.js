@@ -1,20 +1,21 @@
+import Maze from '../src/Maze';
 describe("Maze", function() {
-  var maze;
-  var context = {};
-  var fakeDoc = {
+  let maze;
+  let context = {};
+  let fakeDoc = {
     getElementById: function(elemId) {
       return {
         width: 100,
         height: 200,
-        getContext: function () { 
-          return context; 
+        getContext: function () {
+          return context;
         }
       };
     }
   };
 
   beforeEach(function() {
-    spyOn(fakeDoc, 'getElementById').andCallThrough();
+    spyOn(fakeDoc, 'getElementById').and.callThrough();
     maze = new Maze(fakeDoc, 'elemId');
   });
 

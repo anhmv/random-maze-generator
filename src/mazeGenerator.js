@@ -1,4 +1,10 @@
-var MazeGenerator = function(rows, cols) {
+import Graph from './Graph';
+import includes from 'lodash/includes';
+import forEach from 'lodash/forEach';
+import indexOf from 'lodash/indexOf';
+import remove from 'lodash/remove';
+
+const MazeGenerator = function(rows, cols) {
 	this.graph = new Graph(rows, cols);
 	this.cellStack = [];
 
@@ -38,8 +44,8 @@ var MazeGenerator = function(rows, cols) {
           openSet = [];
           return;
         }
-        if(!_.include(closedSet, neighbor)) {
-          if(!_.include(openSet, neighbor)) {
+        if(!includes(closedSet, neighbor)) {
+          if(!includes(openSet, neighbor)) {
             openSet.push(neighbor);
             neighbor.parent = searchCell;
             neighbor.heuristic = neighbor.score() + this.graph.getCellDistance(neighbor, targetCell);
@@ -47,10 +53,10 @@ var MazeGenerator = function(rows, cols) {
         }
       }
       closedSet.push(searchCell);
-      openSet.remove(_.indexOf(openSet, searchCell));
+      remove(openSet, indexOf(openSet, searchCell));
       searchCell = null;
 
-      _.each(openSet, function(cell) {
+      forEach(openSet, function(cell) {
         if(!searchCell) {
           searchCell = cell;
         }
@@ -66,3 +72,5 @@ var MazeGenerator = function(rows, cols) {
 		recurse(initialCell);
 	};
 };
+
+export default MazeGenerator;
